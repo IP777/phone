@@ -1,19 +1,27 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk from "redux-thunk";
+import sessionReducer from "./reducer/session";
+import logger from "./middleware/logger";
+//-----------------------------
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-// const rootReducer = combineReducers({
-// 	session: sessionReducer,
-// 	content: contentReducer,
-// 	recipe: recipeReducer,
-// });
 const rootReducer = combineReducers({
-	//
+	session: sessionReducer,
 });
 
-const middleware = [ReduxThunk];
+const persistConfig = {
+	key: "userToken",
+	storage: storage,
+	whitelist: ["userToken"],
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const middleware = [ReduxThunk, logger];
 const enhancer = applyMiddleware(...middleware);
 
-const store = createStore(rootReducer, composeWithDevTools(enhancer));
+const store = createStore(persistedReducer, composeWithDevTools(enhancer));
+const persistor = persistStore(store);
 
-export default store;
+export { store, persistor };

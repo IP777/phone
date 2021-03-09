@@ -1,0 +1,18 @@
+.form {
+	text-align: center;
+	margin: 0 auto;
+}
+
+.input,
+.input_invalid {
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	width: 300px;
+	font-size: medium;
+	padding: 5px;
+}
+
+.input_invalid {
+	background: red;
+}
