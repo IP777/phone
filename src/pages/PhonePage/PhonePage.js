@@ -1,8 +1,7 @@
 import { useState } from "react";
-import style from "./PhonePage.module.css";
 import logo from "../../assets/image/807f5eca0a528174731841552be4ce8f.png";
 import Draggable from "react-draggable";
-import timeWidget from "../../component/TimeWidget/TimeWidget";
+import SecondMenu from "../../component/SecondMenu/SecondMenu";
 import PhoneHeader from "../../component/PhoneHeader/PhoneHeader";
 import Keyboard from "../../component/Keyboard/Keyboard";
 import LineList from "../../component/LineList/LineList";
@@ -11,6 +10,7 @@ import MiddlePhoneKeyboard from "../../component/MiddlePhoneKeyboard/MiddlePhone
 import { connect } from "react-redux";
 import { getSession } from "../../redux/reducer/session";
 import useSipConnect from "../../hooks/useSipConnect";
+import "./PhonePage.sass";
 
 function PhonePage({ session }) {
 	const [state, setState] = useState({
@@ -77,14 +77,17 @@ function PhonePage({ session }) {
 
 	return (
 		<Draggable>
-			<div className={style.wrapper}>
-				<PhoneHeader />
-				<div className={style.main}>
-					<div className={style.mainHeader}>{timeWidget()}</div>
+			<div className="wrapper">
+				<PhoneHeader name={session.userName} />
+				<div className="main">
+					<SecondMenu status={null} />
 					{state.pressNumber ? (
 						<span>{phoneNumder}</span>
 					) : (
-						<img src={logo} alt="logo" />
+						<div className="logo">
+							<img src={logo} alt="logo" />
+							<span>Введите контактные данные</span>
+						</div>
 					)}
 
 					<LineList />

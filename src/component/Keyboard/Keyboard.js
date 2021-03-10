@@ -1,14 +1,13 @@
-import { useState } from "react";
 import style from "./Keyboard.module.css";
+import "./Keyboard.sass";
 
 export default function Keyboard({ pressKey, phoneNumber }) {
 	const handlerOnClick = (e) => {
-		// pressKey(parseInt(e.target.value));
 		pressKey(e.target.value);
 	};
 
 	return (
-		<ul className={style.callBtn}>
+		<ul className="callBtn">
 			<li>
 				<input type="button" value="1" onClick={handlerOnClick} />
 			</li>

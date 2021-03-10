@@ -5,16 +5,16 @@ import PrivateRoute from "./component/PrivateRoute/PrivateRoute";
 import GuestRout from "./component/GuestRoute/GuestRout";
 
 export default function App() {
-	return (
-		<Switch>
-			<GuestRout path="/login">
-				<Route exact path="/login" component={LoginPage} />
-			</GuestRout>
-			<PrivateRoute path="/">
-				<Route component={PhonePage} />
-			</PrivateRoute>
+    return (
+        <Switch>
+            <GuestRout path="/login">
+                <Route exact path="/login" component={LoginPage} />
+            </GuestRout>
+            <PrivateRoute path="/">
+                <Route component={PhonePage} />
+            </PrivateRoute>
 
-			<Redirect to="/" />
-		</Switch>
-	);
+            <Redirect to="/" />
+        </Switch>
+    );
 }
