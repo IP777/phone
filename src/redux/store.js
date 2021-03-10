@@ -14,11 +14,10 @@ const rootReducer = combineReducers({
 const persistConfig = {
 	key: "userToken",
 	storage: storage,
-	whitelist: ["userToken"],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const middleware = [ReduxThunk, logger];
+const middleware = [ReduxThunk];
 const enhancer = applyMiddleware(...middleware);
 
 const store = createStore(persistedReducer, composeWithDevTools(enhancer));

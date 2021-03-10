@@ -1,0 +1,12 @@
+.header {
+	border: 1px solid #000;
+	display: flex;
+	justify-content: space-between;
+}
+
+.statusDot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: #70de3c;
+}

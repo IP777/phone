@@ -1,0 +1,9 @@
+.footer {
+	background-color: #554aff;
+}
+
+.footer_list {
+	display: flex;
+	justify-content: space-between;
+	height: 43px;
+}
