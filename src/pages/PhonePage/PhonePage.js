@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import style from "./PhonePage.module.css";
 import logo from "../../assets/image/807f5eca0a528174731841552be4ce8f.png";
 import Draggable from "react-draggable";
@@ -10,32 +10,31 @@ import PhoneFooter from "../../component/PhoneFooter/PhoneFooter";
 import MiddlePhoneKeyboard from "../../component/MiddlePhoneKeyboard/MiddlePhoneKeyboard";
 import { connect } from "react-redux";
 import { getSession } from "../../redux/reducer/session";
-import JsSIP from "jssip";
+import useSipConnect from "../../hooks/useSipConnect";
 
 function PhonePage({ session }) {
 	const [state, setState] = useState({
 		keyboardIsOn: true,
 		pressNumber: false,
 	});
-
-	const [sipConnect, setSipConnect] = useState(false);
-	const [sipUa, setSipUa] = useState({});
 	const [sipCall, setSipCall] = useState({});
-	const [sipAudio, setSipAudio] = useState();
-
-	const [phoneNumder, setPhoneNumder] = useState(["+", "3", "8", "0"]);
+	const [phoneNumder, setPhoneNumder] = useState([]);
+	const { sipUa, sipAudio } = useSipConnect(session);
 
 	const pressKey = (number) => {
 		setPhoneNumder([...phoneNumder, number]);
-
 		if (!state.pressNumber) {
 			setState({ ...state, pressNumber: true });
+		}
+		if (phoneNumder.length === 0) {
+			setPhoneNumder(["+", "3", "8", "0", number]);
 		}
 	};
 
 	const removeHandler = () => {
 		if (phoneNumder.length === 1) {
 			setState({ ...state, pressNumber: false });
+			setPhoneNumder([]);
 			return;
 		}
 		setPhoneNumder(phoneNumder.slice(0, phoneNumder.length - 1));
@@ -43,7 +42,7 @@ function PhonePage({ session }) {
 
 	const handelCall = () => {
 		// Обработка событии исх. звонка
-		var eventHandlers = {
+		const eventHandlers = {
 			progress: function (e) {
 				console.log("call is in progress");
 
@@ -64,12 +63,10 @@ function PhonePage({ session }) {
 			},
 		};
 
-		var options = {
+		const callSession = sipUa.call(phoneNumder.join(""), {
 			eventHandlers: eventHandlers,
 			mediaConstraints: { audio: true, video: false },
-		};
-
-		const callSession = sipUa.call(phoneNumder.join(""), options);
+		});
 
 		setSipCall(callSession);
 	};
@@ -77,53 +74,6 @@ function PhonePage({ session }) {
 	const handelEndCall = () => {
 		sipCall.terminate();
 	};
-
-	useEffect(() => {
-		if (!sipConnect) {
-			JsSIP.debug.enable("JsSIP:*");
-			var socket = new JsSIP.WebSocketInterface(session.host);
-			var configuration = {
-				sockets: [socket],
-				uri: session.userUrl,
-				password: session.userPass,
-			};
-
-			var ua = new JsSIP.UA(configuration);
-
-			// События регистрации клиента
-			ua.on("connected", function (e) {
-				/* Код */
-				console.log("UA connected");
-			});
-			ua.on("disconnected", function (e) {
-				/* Код */
-			});
-
-			ua.on("registered", function (e) {
-				/* Код */
-			});
-			ua.on("unregistered", function (e) {
-				/* Код */
-				console.log("UA unregistered");
-			});
-			ua.on("registrationFailed", function (e) {
-				/*Код */
-				console.error("UA registrationFailed", e.cause);
-			});
-
-			setSipConnect(true);
-
-			// Запускаем
-			// ua.start();
-			setSipUa(ua);
-
-			//Подключение к микрофону потоковый звук
-			const remoteAudio = new window.Audio();
-			remoteAudio.autoplay = true;
-
-			setSipAudio(remoteAudio);
-		}
-	});
 
 	return (
 		<Draggable>
