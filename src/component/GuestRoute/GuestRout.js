@@ -5,7 +5,6 @@ import { isLoggedInSelector } from "../../redux/reducer/session";
 
 function GuestRoute({ children, ...restProps }) {
 	const isGuestUser = !useSelector(isLoggedInSelector);
-	console.log(isGuestUser);
 
 	return (
 		<Route

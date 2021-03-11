@@ -1,14 +1,24 @@
 import { Redirect, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { isLoggedInSelector } from "../../redux/reducer/session";
+import {
+	isUriInSelector,
+	isLoggedInSelector,
+} from "../../redux/reducer/session";
 
 function PrivateRoute({ children, ...restProps }) {
 	const isLoggedIn = useSelector(isLoggedInSelector);
+	const isLogginedUser = useSelector(isUriInSelector);
 
 	return (
 		<Route
 			{...restProps}
-			render={() => (isLoggedIn ? children : <Redirect to="/login" />)}
+			render={() =>
+				isLoggedIn && isLogginedUser ? (
+					children
+				) : (
+					<Redirect to="/login" />
+				)
+			}
 		/>
 	);
 }

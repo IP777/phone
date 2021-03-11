@@ -37,4 +37,5 @@ export default function user(state = initialState, { type, payload }) {
 }
 
 export const isLoggedInSelector = (state) => Boolean(state.session.userToken);
+export const isUriInSelector = (state) => Boolean(state.session.userUrl);
 export const getSession = (state) => state.session;

@@ -1,8 +1,0 @@
-.line {
-	display: flex;
-	justify-content: space-between;
-}
-
-.line > li {
-	border: 1px solid #000;
-}

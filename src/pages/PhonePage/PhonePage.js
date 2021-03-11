@@ -18,6 +18,7 @@ function PhonePage({ session }) {
 		keyboardIsOn: true,
 		pressNumber: false,
 	});
+
 	const [sipCall, setSipCall] = useState({});
 	const [phoneNumder, setPhoneNumder] = useState([]);
 	const { sipUa, sipAudio } = useSipConnect(session);
@@ -76,9 +77,13 @@ function PhonePage({ session }) {
 		sipCall.terminate();
 	};
 
+	const mouseUpHendler = () => {
+		console.log("mouse up");
+	};
+
 	return (
 		<Draggable>
-			<div className="wrapper">
+			<div className="wrapper" some="some text">
 				<PhoneHeader name={session.userName} />
 				<div className="main">
 					<SecondMenu status={null} />

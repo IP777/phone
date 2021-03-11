@@ -1,9 +1,9 @@
-import style from "./LoginPage.module.css";
+import "./LoginPage.sass";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { loginWithResponse } from "../../redux/operations/sessionOperations";
 
-function LoginPage({ loginWithResponse }) {
+function LoginPage({ loginWithResponse, history }) {
 	const [user, setUser] = useState({
 		email: "",
 		password: "",
@@ -36,6 +36,10 @@ function LoginPage({ loginWithResponse }) {
 		if (loginResp.error) {
 			alert(loginResp.error);
 		}
+
+		if (loginResp.data.uri) {
+			history.push("/");
+		}
 	};
 
 	const handlerChange = (e) => {
@@ -47,30 +51,30 @@ function LoginPage({ loginWithResponse }) {
 	};
 
 	return (
-		<form className={style.form} onSubmit={submitHandler}>
-			<h2>Залогинится</h2>
-			<input
-				name="email"
-				className={valid.email ? style.input : style.input_invalid}
-				type="text"
-				placeholder="email"
-				onChange={handlerChange}
-				onFocus={handelOnFocus}
-			/>
-			<input
-				name="password"
-				className={valid.email ? style.input : style.input_invalid}
-				type="password"
-				placeholder="password"
-				onChange={handlerChange}
-				onFocus={handelOnFocus}
-			/>
-			<input className={style.submit} type="submit" value="Отправить" />
-		</form>
+		<>
+			<form className="form" onSubmit={submitHandler}>
+				<h2>Войти</h2>
+				<input
+					name="email"
+					className={valid.email ? "input" : "input_invalid"}
+					type="text"
+					placeholder="email"
+					onChange={handlerChange}
+					onFocus={handelOnFocus}
+				/>
+				<input
+					name="password"
+					className={valid.email ? "input" : "input_invalid"}
+					type="password"
+					placeholder="password"
+					onChange={handlerChange}
+					onFocus={handelOnFocus}
+				/>
+				<input className="submit" type="submit" value="Отправить" />
+			</form>
+		</>
 	);
 }
-
-// export default LoginPage;
 
 const mapDispatchToProps = {
 	loginWithResponse,

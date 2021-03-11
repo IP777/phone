@@ -1,0 +1,44 @@
+$shadow: 0 1px 4px rgba(0, 0, 0, .3),-23px 0 20px -23px rgba(0, 0, 0, .6),23px 0 20px -23px rgba(0, 0, 0, .6),inset 0 0 40px rgba(0, 0, 0, .1)
+$color-gray: #7D7D7D
+
+.form 
+    margin: 0 auto
+    text-align: center
+    margin-top: 50px
+    border: 1px solid $color-gray
+    h2
+        color: #fff
+        font-size: 33px
+    .input,
+    .input_invalid 
+        display: block
+        margin: 0 auto
+        margin-bottom: 15px
+        width: 300px
+        font-size: medium
+        padding: 5px
+        border: 0
+        border-radius: 5px
+        box-shadow: $shadow
+    .submit
+        padding: 7px
+        padding-left: 14px
+        padding-right: 14px
+        font-family: 'Roboto-Light'
+        background-color: #fff
+        border: 0
+        border-radius: 3px
+        box-shadow: $shadow
+        margin-bottom: 40px
+    .submit:hover
+        background-color: #6DD453
+        color: #fff
+        
+.input_invalid 
+    background: red
+
+.test
+    position: absolute
+    left: 20px
+    top: 30px
+    cursor: pointer
