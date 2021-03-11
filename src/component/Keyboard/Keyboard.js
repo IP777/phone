@@ -1,4 +1,3 @@
-import style from "./Keyboard.module.css";
 import "./Keyboard.sass";
 
 export default function Keyboard({ pressKey, phoneNumber }) {

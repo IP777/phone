@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { getSession } from "../../redux/reducer/session";
 import useSipConnect from "../../hooks/useSipConnect";
 import "./PhonePage.sass";
+import add_btn_img_src from "../../assets/image/add-btn.svg";
 
 function PhonePage({ session }) {
 	const [state, setState] = useState({
@@ -81,21 +82,31 @@ function PhonePage({ session }) {
 				<PhoneHeader name={session.userName} />
 				<div className="main">
 					<SecondMenu status={null} />
-					{state.pressNumber ? (
-						<span>{phoneNumder}</span>
-					) : (
-						<div className="logo">
-							<img src={logo} alt="logo" />
-							<span>Введите контактные данные</span>
-						</div>
-					)}
-
-					<LineList />
+					<div className="phone_wrapper">
+						{state.pressNumber ? (
+							<div className="phoneNumder_wrapper">
+								<div className="add_contact_block">
+									<img src={add_btn_img_src} alt="+" />
+									<span>Добавить контакт</span>
+								</div>
+								<span className="phoneNumder">
+									{phoneNumder}
+								</span>
+							</div>
+						) : (
+							<div className="logo">
+								<img src={logo} alt="logo" />
+								<span>Введите контактные данные</span>
+							</div>
+						)}
+						<LineList />
+					</div>
 					<Keyboard pressKey={pressKey} phoneNumber={phoneNumder} />
 					<MiddlePhoneKeyboard
 						handelCall={handelCall}
 						handelEndCall={handelEndCall}
 						removeHandler={removeHandler}
+						isCall={false}
 					/>
 				</div>
 				<PhoneFooter />

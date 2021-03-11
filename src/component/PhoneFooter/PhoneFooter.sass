@@ -1,0 +1,33 @@
+.footer_wrapper 
+    border-radius: 0 0 10px 10px
+    background: #554aff
+    
+
+.footer_list 
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    grid-gap: 6px
+    justify-items: center
+    height: 43px
+    border-radius: 10px
+    li
+        position: relative
+        margin-top: 10px
+        text-align: center
+        font-family: 'Roboto-Light'
+        font-weight: 500
+        font-size: 12px
+        opacity: .5
+    .active      
+        opacity: 1
+        color: #fff
+    .active::after
+        display: block
+        position: absolute
+        transform: translateX(-50%)
+        left: 50%
+        top: -10px
+        content: ""
+        width: 65px
+        border-top: 3px solid #6DD453
+
