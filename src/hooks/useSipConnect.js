@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import JsSIP from "jssip";
 
-export default function useSipConnect(session) {
+export default function useSipConnect(auth) {
 	const [sipConnect, setSipConnect] = useState(false);
 	const [sipUa, setSipUa] = useState({});
 	const [sipAudio, setSipAudio] = useState();
@@ -9,14 +9,18 @@ export default function useSipConnect(session) {
 	useEffect(() => {
 		if (!sipConnect) {
 			JsSIP.debug.enable("JsSIP:*");
-			var socket = new JsSIP.WebSocketInterface(session.host);
-			var configuration = {
+			const socket = new JsSIP.WebSocketInterface(auth.host);
+			const configuration = {
 				sockets: [socket],
-				uri: session.userUrl,
-				password: session.userPass,
+				uri: auth.userUrl,
+				name: auth.userName,
+				password: auth.userPass,
+				register_expires: auth.registerExpires,
+				session_timers_refresh_method: auth.sessionTimersRefrMethod,
+				realm: auth.realm,
 			};
 
-			var ua = new JsSIP.UA(configuration);
+			const ua = new JsSIP.UA(configuration);
 
 			// События регистрации клиента
 			ua.on("connected", function (e) {

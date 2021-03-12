@@ -4,6 +4,9 @@ import {
 	SET_USER_PASS,
 	SET_USER_URL,
 	SET_HOST,
+	SET_REGISTER_EXPIRIES,
+	SET_SESSION_TIMERS_REFRESH_METHOD,
+	SET_RELAMS,
 	SET_IS_LOADED,
 } from "../constants/session";
 
@@ -34,5 +37,20 @@ export const setUserUrl = (payload) => ({
 
 export const setHost = (payload) => ({
 	type: SET_HOST,
+	payload,
+});
+
+export const setRegisterExpires = (payload) => ({
+	type: SET_REGISTER_EXPIRIES,
+	payload,
+});
+
+export const setSessionTimersRefreshMethod = (payload) => ({
+	type: SET_SESSION_TIMERS_REFRESH_METHOD,
+	payload,
+});
+
+export const setRealm = (payload) => ({
+	type: SET_RELAMS,
 	payload,
 });

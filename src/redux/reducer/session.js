@@ -5,6 +5,9 @@ import {
 	SET_USER_PASS,
 	SET_USER_URL,
 	SET_HOST,
+	SET_REGISTER_EXPIRIES,
+	SET_SESSION_TIMERS_REFRESH_METHOD,
+	SET_RELAMS,
 } from "../constants/session";
 
 const initialState = {
@@ -14,6 +17,9 @@ const initialState = {
 	userPass: "",
 	userUrl: "",
 	host: "",
+	registerExpires: "",
+	sessionTimersRefrMethod: "",
+	realm: "",
 };
 
 export default function user(state = initialState, { type, payload }) {
@@ -30,7 +36,12 @@ export default function user(state = initialState, { type, payload }) {
 			return { ...state, userUrl: payload };
 		case SET_HOST:
 			return { ...state, host: payload };
-
+		case SET_REGISTER_EXPIRIES:
+			return { ...state, registerExpires: payload };
+		case SET_SESSION_TIMERS_REFRESH_METHOD:
+			return { ...state, sessionTimersRefrMethod: payload };
+		case SET_RELAMS:
+			return { ...state, realm: payload };
 		default:
 			return state;
 	}

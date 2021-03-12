@@ -13,7 +13,7 @@ import useSipConnect from "../../hooks/useSipConnect";
 import style from "./PhonePage.module.sass";
 import add_btn_img_src from "../../assets/image/add-btn.svg";
 
-function PhonePage({ session }) {
+function PhonePage({ auth }) {
 	const [state, setState] = useState({
 		keyboardIsOn: true,
 		pressNumber: false,
@@ -21,7 +21,7 @@ function PhonePage({ session }) {
 
 	const [sipCall, setSipCall] = useState({});
 	const [phoneNumder, setPhoneNumder] = useState([]);
-	const { sipUa, sipAudio } = useSipConnect(session);
+	const { sipUa, sipAudio } = useSipConnect(auth);
 
 	const pressKey = (number) => {
 		setPhoneNumder([...phoneNumder, number]);
@@ -48,10 +48,10 @@ function PhonePage({ session }) {
 			progress: function (e) {
 				console.log("call is in progress");
 
-				session.connection.ontrack = function (e) {
-					console.log(e);
-					sipAudio.srcObject = e.streams[0];
-				};
+				// session.connection.ontrack = function (e) {
+				// 	console.log(e);
+				// 	sipAudio.srcObject = e.streams[0];
+				// };
 			},
 			failed: function (e) {
 				console.log("call failed with cause: " + e.cause);
@@ -80,7 +80,7 @@ function PhonePage({ session }) {
 	return (
 		<Draggable>
 			<div className={style.wrapper} some="some text">
-				<PhoneHeader name={session.userName} />
+				<PhoneHeader name={auth.userName} />
 				<div className={style.main}>
 					<SecondMenu status={null} />
 					<div className={style.phone_wrapper}>
@@ -117,7 +117,7 @@ function PhonePage({ session }) {
 }
 
 const mapStateToProps = (state) => ({
-	session: getSession(state),
+	auth: getSession(state),
 });
 
 export default connect(mapStateToProps)(PhonePage);
