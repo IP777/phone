@@ -4,6 +4,9 @@ export default function Keyboard({ pressKey, phoneNumber }) {
 	const handlerOnClick = (e) => {
 		pressKey(e.target.value);
 	};
+	const handlerOnDoubleClick = () => {
+		pressKey(0);
+	};
 
 	return (
 		<ul className={style.callBtn}>
@@ -38,10 +41,16 @@ export default function Keyboard({ pressKey, phoneNumber }) {
 				<input type="button" value="*" onClick={handlerOnClick} />
 			</li>
 			<li>
-				<input type="button" value="0" onClick={handlerOnClick} />
+				<div
+					onClick={handlerOnClick}
+					onDoubleClick={handlerOnDoubleClick}
+				>
+					<span>0</span>
+					<span>+</span>
+				</div>
 			</li>
 			<li>
-				<input type="button" value="#" onClick={handlerOnClick} />
+				<input type="button" value="#" onClick={handlerOnDoubleClick} />
 			</li>
 		</ul>
 	);
