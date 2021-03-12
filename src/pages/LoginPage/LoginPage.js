@@ -1,4 +1,4 @@
-import "./LoginPage.sass";
+import style from "./LoginPage.module.sass";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { loginWithResponse } from "../../redux/operations/sessionOperations";
@@ -52,11 +52,11 @@ function LoginPage({ loginWithResponse, history }) {
 
 	return (
 		<>
-			<form className="form" onSubmit={submitHandler}>
+			<form className={style.form} onSubmit={submitHandler}>
 				<h2>Войти</h2>
 				<input
 					name="email"
-					className={valid.email ? "input" : "input_invalid"}
+					className={valid.email ? style.input : style.input_invalid}
 					type="text"
 					placeholder="email"
 					onChange={handlerChange}
@@ -64,13 +64,17 @@ function LoginPage({ loginWithResponse, history }) {
 				/>
 				<input
 					name="password"
-					className={valid.email ? "input" : "input_invalid"}
+					className={valid.email ? style.input : style.input_invalid}
 					type="password"
 					placeholder="password"
 					onChange={handlerChange}
 					onFocus={handelOnFocus}
 				/>
-				<input className="submit" type="submit" value="Отправить" />
+				<input
+					className={style.submit}
+					type="submit"
+					value="Отправить"
+				/>
 			</form>
 		</>
 	);

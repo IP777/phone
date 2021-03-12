@@ -10,7 +10,7 @@ import MiddlePhoneKeyboard from "../../component/MiddlePhoneKeyboard/MiddlePhone
 import { connect } from "react-redux";
 import { getSession } from "../../redux/reducer/session";
 import useSipConnect from "../../hooks/useSipConnect";
-import "./PhonePage.sass";
+import style from "./PhonePage.module.sass";
 import add_btn_img_src from "../../assets/image/add-btn.svg";
 
 function PhonePage({ session }) {
@@ -77,29 +77,25 @@ function PhonePage({ session }) {
 		sipCall.terminate();
 	};
 
-	const mouseUpHendler = () => {
-		console.log("mouse up");
-	};
-
 	return (
 		<Draggable>
-			<div className="wrapper" some="some text">
+			<div className={style.wrapper} some="some text">
 				<PhoneHeader name={session.userName} />
-				<div className="main">
+				<div className={style.main}>
 					<SecondMenu status={null} />
-					<div className="phone_wrapper">
+					<div className={style.phone_wrapper}>
 						{state.pressNumber ? (
-							<div className="phoneNumder_wrapper">
-								<div className="add_contact_block">
+							<div className={style.phoneNumder_wrapper}>
+								<div className={style.add_contact_block}>
 									<img src={add_btn_img_src} alt="+" />
 									<span>Добавить контакт</span>
 								</div>
-								<span className="phoneNumder">
+								<span className={style.phoneNumder}>
 									{phoneNumder}
 								</span>
 							</div>
 						) : (
-							<div className="logo">
+							<div className={style.logo}>
 								<img src={logo} alt="logo" />
 								<span>Введите контактные данные</span>
 							</div>

@@ -1,5 +1,5 @@
 import timeWidget from "./helpers/TimeWidget";
-import "./SecondMenu.sass";
+import style from "./SecondMenu.module.sass";
 import search_img_src from "../../assets/image/search.svg";
 import dot_img_src from "../../assets/image/dot-menu.svg";
 import clock_img_src from "../../assets/image/clock.svg";
@@ -20,8 +20,8 @@ export default function SecondMenu({ time, status }) {
 	};
 
 	return (
-		<div className="sm_wrapper">
-			<div className="time">
+		<div className={style.sm_wrapper}>
+			<div className={style.time}>
 				<img src={clock_img_src} alt="O" />
 				{timeWidget(time)}
 			</div>

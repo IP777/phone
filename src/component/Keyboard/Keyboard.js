@@ -1,4 +1,4 @@
-import "./Keyboard.sass";
+import style from "./Keyboard.module.sass";
 
 export default function Keyboard({ pressKey, phoneNumber }) {
 	const handlerOnClick = (e) => {
@@ -6,7 +6,7 @@ export default function Keyboard({ pressKey, phoneNumber }) {
 	};
 
 	return (
-		<ul className="callBtn">
+		<ul className={style.callBtn}>
 			<li>
 				<input type="button" value="1" onClick={handlerOnClick} />
 			</li>
