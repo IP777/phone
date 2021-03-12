@@ -10,6 +10,7 @@ export default function useSipConnect(auth) {
 		if (!sipConnect) {
 			JsSIP.debug.enable("JsSIP:*");
 			const socket = new JsSIP.WebSocketInterface(auth.host);
+			socket.via_transport = "wss";
 			const configuration = {
 				sockets: [socket],
 				uri: auth.userUrl,

@@ -4,8 +4,12 @@ export default function Keyboard({ pressKey, phoneNumber }) {
 	const handlerOnClick = (e) => {
 		pressKey(e.target.value);
 	};
-	const handlerOnDoubleClick = () => {
+	const handelNullClick = () => {
 		pressKey(0);
+	};
+	const handlerOnRightClick = (e) => {
+		e.preventDefault();
+		pressKey("+");
 	};
 
 	return (
@@ -42,15 +46,16 @@ export default function Keyboard({ pressKey, phoneNumber }) {
 			</li>
 			<li>
 				<div
-					onClick={handlerOnClick}
-					onDoubleClick={handlerOnDoubleClick}
+					onClick={handelNullClick}
+					onContextMenu={handlerOnRightClick}
+					value="0"
 				>
 					<span>0</span>
 					<span>+</span>
 				</div>
 			</li>
 			<li>
-				<input type="button" value="#" onClick={handlerOnDoubleClick} />
+				<input type="button" value="#" onClick={handlerOnClick} />
 			</li>
 		</ul>
 	);

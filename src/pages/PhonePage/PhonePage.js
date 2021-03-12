@@ -70,6 +70,7 @@ function PhonePage({ auth }) {
 			mediaConstraints: { audio: true, video: false },
 		});
 
+		console.log(phoneNumder.join(""));
 		setSipCall(callSession);
 	};
 
