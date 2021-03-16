@@ -18,7 +18,7 @@ export default function useSipConnect(auth) {
 				password: auth.userPass,
 				register_expires: auth.registerExpires,
 				session_timers_refresh_method: auth.sessionTimersRefrMethod,
-				realm: auth.realm,
+				realm: 30,
 			};
 
 			const ua = new JsSIP.UA(configuration);
@@ -28,11 +28,8 @@ export default function useSipConnect(auth) {
 				console.log("UA connected");
 			});
 			ua.on("disconnected", function (e) {});
-
 			ua.on("registered", function (e) {});
-			ua.on("unregistered", function (e) {
-				console.log("UA unregistered");
-			});
+			ua.on("unregistered", function (e) {});
 			ua.on("registrationFailed", function (e) {
 				console.error("UA registrationFailed", e.cause);
 			});
@@ -40,12 +37,14 @@ export default function useSipConnect(auth) {
 			setSipConnect(true);
 
 			// Запускаем
-			// ua.start();
+			ua.start();
 			setSipUa(ua);
 
 			//Подключение к микрофону потоковый звук
-			const remoteAudio = new window.Audio();
+			let remoteAudio = new window.Audio();
 			remoteAudio.autoplay = true;
+
+			let oSipAudio = new window.Audio();
 
 			setSipAudio(remoteAudio);
 		}

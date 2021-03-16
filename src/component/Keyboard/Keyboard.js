@@ -5,11 +5,16 @@ export default function Keyboard({ pressKey, phoneNumber }) {
 		pressKey(e.target.value);
 	};
 	const handelNullClick = () => {
-		pressKey(0);
+		pressKey([0]);
 	};
 	const handlerOnRightClick = (e) => {
 		e.preventDefault();
-		pressKey("+");
+
+		if (phoneNumber.length === 0) {
+			pressKey(["+", "3", "8", "0"]);
+		} else {
+			pressKey("+");
+		}
 	};
 
 	return (

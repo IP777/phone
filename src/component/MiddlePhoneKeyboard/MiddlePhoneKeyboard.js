@@ -9,6 +9,8 @@ export default function MiddlePhoneKeyboard({
 	handelCall,
 	removeHandler,
 	handelEndCall,
+	handelMute,
+	mute,
 	isCall,
 }) {
 	return (
@@ -17,15 +19,19 @@ export default function MiddlePhoneKeyboard({
 				<>
 					<div className={style.keyboardBtn}>
 						<img src={keyboard_img_src} alt="X" />
-						<span>Скрыть</span>
+						{isCall ? <span>Клавиатура</span> : <span>Скрыть</span>}
 					</div>
-					<div className={style.downCallBtn} onClick={handelCall}>
+					<div className={style.downCallBtn} onClick={handelEndCall}>
 						<img src={downCall_img_src} alt="X" />
 					</div>
 
-					<div className={style.muteBtn} onClick={removeHandler}>
+					<div
+						id="muteBtn"
+						onClick={handelMute}
+						className={style.muteBtn}
+					>
 						<img src={mute_img_src} alt="X" />
-						<span>Выкл. мик</span>
+						{mute ? <span>Выкл. мик</span> : <span>Вкл. мик</span>}
 					</div>
 				</>
 			) : (
@@ -34,7 +40,11 @@ export default function MiddlePhoneKeyboard({
 						<img src={keyboard_img_src} alt="X" />
 						<span>Клавиатура</span>
 					</div>
-					<div className={style.callBtn2} onClick={handelCall}>
+					<div
+						id="callBtn"
+						className={style.callBtn2}
+						onClick={handelCall}
+					>
 						<img src={phone_img_src} alt="X" />
 					</div>
 
