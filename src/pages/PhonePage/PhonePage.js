@@ -168,7 +168,7 @@ function PhonePage({ auth, loginWithToken }) {
 											className={
 												style.logo +
 												" " +
-												style.incaming_wrapper
+												style.incoming_wrapper
 											}
 										>
 											<span>Входящий звонок</span>
