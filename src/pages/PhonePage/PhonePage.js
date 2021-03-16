@@ -56,7 +56,6 @@ function PhonePage({ auth, loginWithToken }) {
 	const handelCall = () => {
 		//Проверяем создалась сессия и есть ли входящий если нету то кнопка работает на звонок
 		if (session && session.direction === "incoming") {
-			console.log("inCall");
 			setState({ ...state, isCall: true });
 			session.answer({
 				mediaConstraints: {
@@ -70,7 +69,6 @@ function PhonePage({ auth, loginWithToken }) {
 				sipAudio.play();
 			});
 		} else {
-			console.log("call");
 			//Проверка если не набрали номер
 			if (phoneNumder.length === 0) {
 				return;
@@ -78,27 +76,23 @@ function PhonePage({ auth, loginWithToken }) {
 			// Обработка событии исх. звонка
 			const eventHandlers = {
 				progress: function (e) {
-					console.log("call is in progress");
 					setState({ ...state, isCall: true });
+					//По идее я должен тут должен отлавливать сессию, но она не обновляется
+					//и прилетает пустой обьект
 					// session.connection.addEventListener("track", (e) => {
 					// 	sipAudio.srcObject = e.streams[0];
 					// 	sipAudio.play();
 					// });
 				},
 				failed: function (e) {
-					console.log("call failed with cause: " + e.cause);
 					setState({ ...state, isCall: false });
 				},
 				ended: function (e) {
-					console.log("call ended with cause: " + e.cause);
 					setState({ ...state, isCall: false });
 				},
-				confirmed: function (e) {
-					console.log("call confirmed");
-				},
+				confirmed: function (e) {},
 			};
 
-			// const callSession = sipUa.
 			sipUa.call(phoneNumder.join(""), {
 				eventHandlers: eventHandlers,
 				mediaConstraints: { audio: true, video: false },
@@ -109,7 +103,6 @@ function PhonePage({ auth, loginWithToken }) {
 	};
 
 	const handelEndCall = () => {
-		console.log(session);
 		session.terminate();
 		setState({ ...state, isCall: false, inCall: false });
 	};
@@ -117,14 +110,12 @@ function PhonePage({ auth, loginWithToken }) {
 	const handelMute = () => {
 		if (state.mute) {
 			setState({ ...state, mute: false });
-			console.log("unmute");
 			session.unmute({
 				audio: true,
 				video: false,
 			});
 		} else {
 			setState({ ...state, mute: true });
-			console.log("mute");
 			session.mute();
 		}
 	};
@@ -132,11 +123,9 @@ function PhonePage({ auth, loginWithToken }) {
 	const handelHold = () => {
 		if (state.hold) {
 			session.unhold();
-			console.log("unhold");
 			setState({ ...state, hold: false });
 		} else {
 			session.hold();
-			console.log("hold");
 			setState({ ...state, hold: true });
 		}
 	};

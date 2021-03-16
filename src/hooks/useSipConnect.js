@@ -24,15 +24,9 @@ export default function useSipConnect(auth) {
 			const ua = new JsSIP.UA(configuration);
 
 			// События регистрации клиента
-			ua.on("connected", function (e) {
-				console.log("UA connected");
-			});
-			ua.on("disconnected", function (e) {
-				console.log("UA disconnected");
-			});
-			ua.on("registered", function (e) {
-				console.log("UA registered");
-			});
+			ua.on("connected", function (e) {});
+			ua.on("disconnected", function (e) {});
+			ua.on("registered", function (e) {});
 			ua.on("unregistered", function (e) {});
 			ua.on("registrationFailed", function (e) {
 				console.error("UA registrationFailed", e.cause);
