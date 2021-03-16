@@ -6,7 +6,6 @@ import clock_img_src from "../../assets/image/clock.svg";
 
 export default function SecondMenu({ time, status }) {
 	const callStatus = (status) => {
-		console.log(status);
 		switch (status) {
 			case "inCall":
 				return "Входящий...";

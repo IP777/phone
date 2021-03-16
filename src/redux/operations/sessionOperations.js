@@ -9,7 +9,7 @@ import {
 	setRealm,
 	isLoaded,
 } from "../actions/session";
-import { loginRequestApi } from "../../services/session-api";
+import { loginRequestApi, tokenRequestApi } from "../../services/session-api";
 
 export const loginWithResponse = (credentials) => async (dispath) => {
 	try {
@@ -29,6 +29,15 @@ export const loginWithResponse = (credentials) => async (dispath) => {
 			dispath(setRealm(response.data.realm));
 		}
 		dispath(isLoaded(true));
+		return response;
+	} catch (error) {
+		throw new Error(error);
+	}
+};
+
+export const loginWithToken = (credentials) => async (dispath) => {
+	try {
+		const response = await tokenRequestApi(credentials);
 		return response;
 	} catch (error) {
 		throw new Error(error);

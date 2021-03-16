@@ -27,8 +27,12 @@ export default function useSipConnect(auth) {
 			ua.on("connected", function (e) {
 				console.log("UA connected");
 			});
-			ua.on("disconnected", function (e) {});
-			ua.on("registered", function (e) {});
+			ua.on("disconnected", function (e) {
+				console.log("UA disconnected");
+			});
+			ua.on("registered", function (e) {
+				console.log("UA registered");
+			});
 			ua.on("unregistered", function (e) {});
 			ua.on("registrationFailed", function (e) {
 				console.error("UA registrationFailed", e.cause);
@@ -43,8 +47,6 @@ export default function useSipConnect(auth) {
 			//Подключение к микрофону потоковый звук
 			let remoteAudio = new window.Audio();
 			remoteAudio.autoplay = true;
-
-			let oSipAudio = new window.Audio();
 
 			setSipAudio(remoteAudio);
 		}

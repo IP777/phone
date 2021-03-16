@@ -14,8 +14,12 @@ export default function HoldKeyboard({ handelHold, isHold }) {
 				<img src={transfer_img_src} alt="X" />
 				<span>Трансфер</span>
 			</div>
-			<div id="muteBtn" className={style.keyboardBtn}>
-				<img src={hold_img_src} alt="X" onClick={handelHold} />
+			<div
+				id="muteBtn"
+				className={style.keyboardBtn}
+				onClick={handelHold}
+			>
+				<img src={hold_img_src} alt="X" />
 				<span>{isHold ? "Продолжить" : "Удержать"}</span>
 			</div>
 		</div>

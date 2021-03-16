@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import logo from "../../assets/image/807f5eca0a528174731841552be4ce8f.png";
 import Draggable from "react-draggable";
 import SecondMenu from "../../component/SecondMenu/SecondMenu";
@@ -10,26 +10,32 @@ import MiddlePhoneKeyboard from "../../component/MiddlePhoneKeyboard/MiddlePhone
 import HoldKeyboard from "../../component/HoldKeyboard/HoldKeyboard";
 import { connect } from "react-redux";
 import { getSession } from "../../redux/reducer/session";
+import { loginWithToken } from "../../redux/operations/sessionOperations";
 import useSipConnect from "../../hooks/useSipConnect";
 import useSipSession from "../../hooks/useSipSession";
 import style from "./PhonePage.module.sass";
 import add_btn_img_src from "../../assets/image/add-btn.svg";
 
-function PhonePage({ auth }) {
+function PhonePage({ auth, loginWithToken }) {
 	const [state, setState] = useState({
 		isCall: false,
+		inCall: false,
 		pressNumber: false,
 		sessionOn: false,
 		mute: false,
 		hold: false,
 	});
 
-	const [sipCall, setSipCall] = useState({});
 	const [phoneNumder, setPhoneNumder] = useState([]);
 	// Хук авторизации
 	const { sipUa, sipAudio } = useSipConnect(auth);
+
+	//Управление отображением клавиатуры на странице
+	const inComingCall = (e) => {
+		setState({ ...state, isCall: false, inCall: e });
+	};
 	// Хук сессии
-	const { session } = useSipSession({ sipUa, sipAudio });
+	const { session } = useSipSession({ sipUa, sipAudio, inComingCall });
 
 	const pressKey = (number) => {
 		setPhoneNumder([...phoneNumder, ...number]);
@@ -50,22 +56,21 @@ function PhonePage({ auth }) {
 	const handelCall = () => {
 		//Проверяем создалась сессия и есть ли входящий если нету то кнопка работает на звонок
 		if (session && session.direction === "incoming") {
-			document
-				.querySelector("#callBtn")
-				.addEventListener("click", (e) => {
-					e.stopPropagation();
-					session.answer({
-						mediaConstraints: {
-							audio: true,
-							video: false,
-						},
-					});
-					session.connection.addEventListener("track", (e) => {
-						sipAudio.srcObject = e.streams[0];
-						sipAudio.play();
-					});
-				});
+			console.log("inCall");
+			setState({ ...state, isCall: true });
+			session.answer({
+				mediaConstraints: {
+					audio: true,
+					video: false,
+				},
+			});
+
+			session.connection.addEventListener("track", (e) => {
+				sipAudio.srcObject = e.streams[0];
+				sipAudio.play();
+			});
 		} else {
+			console.log("call");
 			//Проверка если не набрали номер
 			if (phoneNumder.length === 0) {
 				return;
@@ -75,6 +80,10 @@ function PhonePage({ auth }) {
 				progress: function (e) {
 					console.log("call is in progress");
 					setState({ ...state, isCall: true });
+					// session.connection.addEventListener("track", (e) => {
+					// 	sipAudio.srcObject = e.streams[0];
+					// 	sipAudio.play();
+					// });
 				},
 				failed: function (e) {
 					console.log("call failed with cause: " + e.cause);
@@ -89,43 +98,44 @@ function PhonePage({ auth }) {
 				},
 			};
 
-			const callSession = sipUa.call(phoneNumder.join(""), {
+			// const callSession = sipUa.
+			sipUa.call(phoneNumder.join(""), {
 				eventHandlers: eventHandlers,
 				mediaConstraints: { audio: true, video: false },
 			});
 
 			console.log(phoneNumder.join(""));
-			setSipCall(callSession);
 		}
 	};
 
 	const handelEndCall = () => {
-		sipCall.terminate();
-		setState({ ...state, isCall: false });
+		console.log(session);
+		session.terminate();
+		setState({ ...state, isCall: false, inCall: false });
 	};
 
 	const handelMute = () => {
 		if (state.mute) {
 			setState({ ...state, mute: false });
 			console.log("unmute");
-			sipCall.unmute({
+			session.unmute({
 				audio: true,
 				video: false,
 			});
 		} else {
 			setState({ ...state, mute: true });
 			console.log("mute");
-			sipCall.mute();
+			session.mute();
 		}
 	};
 
 	const handelHold = () => {
 		if (state.hold) {
-			sipCall.unhold();
+			session.unhold();
 			console.log("unhold");
 			setState({ ...state, hold: false });
 		} else {
-			sipCall.hold();
+			session.hold();
 			console.log("hold");
 			setState({ ...state, hold: true });
 		}
@@ -136,7 +146,7 @@ function PhonePage({ auth }) {
 			<div className={style.wrapper} some="some text">
 				<PhoneHeader name={auth.userName} />
 				<div className={style.main}>
-					<SecondMenu status={null} />
+					<SecondMenu status={state.inCall ? "inCall" : null} />
 					{state.isCall ? (
 						<span className={style.phoneNumder}>{phoneNumder}</span>
 					) : (
@@ -152,10 +162,26 @@ function PhonePage({ auth }) {
 									</span>
 								</div>
 							) : (
-								<div className={style.logo}>
-									<img src={logo} alt="logo" />
-									<span>Введите контактные данные</span>
-								</div>
+								<>
+									{state.inCall ? (
+										<div
+											className={
+												style.logo +
+												" " +
+												style.incaming_wrapper
+											}
+										>
+											<span>Входящий звонок</span>
+										</div>
+									) : (
+										<div className={style.logo}>
+											<img src={logo} alt="logo" />
+											<span>
+												Введите контактные данные
+											</span>
+										</div>
+									)}
+								</>
 							)}
 						</div>
 					)}
@@ -166,10 +192,14 @@ function PhonePage({ auth }) {
 							isHold={state.hold}
 						/>
 					) : (
-						<Keyboard
-							pressKey={pressKey}
-							phoneNumber={phoneNumder}
-						/>
+						<>
+							{!state.inCall && (
+								<Keyboard
+									pressKey={pressKey}
+									phoneNumber={phoneNumder}
+								/>
+							)}
+						</>
 					)}
 					<MiddlePhoneKeyboard
 						handelCall={handelCall}
@@ -178,6 +208,7 @@ function PhonePage({ auth }) {
 						removeHandler={removeHandler}
 						mute={state.mute}
 						isCall={state.isCall}
+						inCall={state.inCall}
 					/>
 				</div>
 				<PhoneFooter />
@@ -190,4 +221,8 @@ const mapStateToProps = (state) => ({
 	auth: getSession(state),
 });
 
-export default connect(mapStateToProps)(PhonePage);
+const mapDispatchToProps = {
+	loginWithToken,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PhonePage);

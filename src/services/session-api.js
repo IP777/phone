@@ -16,3 +16,19 @@ export const loginRequestApi = (data) => {
 		return res.json();
 	});
 };
+
+// prettier-ignore
+export const tokenRequestApi = (userToken) => {
+	return fetch(`${API_URL}/user/login/token`, {
+		method: "POST",
+		headers: {
+			"Authorization":`Bearer ${userToken}`,
+			"Content-Type": "application/json",
+		},
+	}).then((res) => {
+		if (res.ok) {
+			return res.json();
+		}
+		return res.json();
+	});
+};
