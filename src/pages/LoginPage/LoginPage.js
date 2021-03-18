@@ -27,8 +27,8 @@ export default function LoginPage({ loginWithResponse, history }) {
 		}
 
 		const loginResp = await loginWithResponse({
-			email: "danilo.bilyi@gmail.com",
-			password: "DG-WToq8Lo3bGWGegeO3ASDASDQRFUWKYG7YOF5n",
+			email: user.email,
+			password: user.password,
 		});
 
 		if (loginResp.error) {
