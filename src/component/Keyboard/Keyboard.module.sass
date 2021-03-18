@@ -1,3 +1,6 @@
+$shadow: 0 1px 4px rgba(0, 0, 0, .3),-23px 0 20px -23px rgba(0, 0, 0, .6),23px 0 20px -23px rgba(0, 0, 0, .6),inset 0 0 40px rgba(0, 0, 0, .1)
+$shadow2: 0 2px 4px rgba(0, 0, 0, .2);
+
 .callBtn 
     display: grid
     grid-template-columns: repeat(3, 1fr)
@@ -14,13 +17,28 @@
             font-size: 14px
             color: #7D7D7D
             padding: 4px 26px
+            background-color: #f0f1f8
+            cursor: pointer
+            &:hover
+                box-shadow: $shadow2
         div
             margin-top: 1px
             padding: 2px 26px
-            background: #F0F1F8
-            span
-                display: block
+        .zero
+            margin: 0
+            padding: 0
+            padding-top: 1px
+            padding-bottom: 1px
+            text-align: center
+            div
                 margin: 0
-                line-height: 0.8
+                padding-top: 0
+                padding-bottom: 0
+                line-height: 1
                 font-size: 13px
                 cursor: default
+                cursor: pointer
+                box-shadow: none
+            div:nth-child(2)
+                margin-top: -2px 
+                font-size: 11px  

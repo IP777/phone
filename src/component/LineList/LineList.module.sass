@@ -1,3 +1,5 @@
+$shadow2: 0 2px 4px rgba(0, 0, 0, .2)
+
 .line_list
     display: flex
     justify-content: space-between
@@ -5,13 +7,15 @@
     margin-left: 12px
     margin-right: 12px 
     li
-        font-family: 'Roboto-Light'
         font-weight: 400
         font-size: 11px
         background-color: #F0F1F8
         border-radius: 3px
         padding: 5px
-        color: #AEAEAE
+        color: #7D7D7D
+        cursor: pointer
+        &:hover
+            box-shadow: $shadow2
     .isActive
         background-color: #6DD453
         color: #fff

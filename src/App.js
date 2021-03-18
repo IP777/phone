@@ -1,5 +1,5 @@
 import { Switch, Route, Redirect } from "react-router-dom";
-import LoginPage from "./pages/LoginPage/LoginPage";
+import LoginPage from "./containers/LoginPage";
 import PhonePage from "./pages/PhonePage/PhonePage";
 import PrivateRoute from "./component/PrivateRoute/PrivateRoute";
 

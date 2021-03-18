@@ -1,9 +1,9 @@
 import style from "./LoginPage.module.sass";
 import { useState } from "react";
-import { connect } from "react-redux";
-import { loginWithResponse } from "../../redux/operations/sessionOperations";
+// import { connect } from "react-redux";
+// import { loginWithResponse } from "../../redux/operations/sessionOperations";
 
-function LoginPage({ loginWithResponse, history }) {
+export default function LoginPage({ loginWithResponse, history }) {
 	const [user, setUser] = useState({
 		email: "",
 		password: "",
@@ -80,8 +80,8 @@ function LoginPage({ loginWithResponse, history }) {
 	);
 }
 
-const mapDispatchToProps = {
-	loginWithResponse,
-};
+// const mapDispatchToProps = {
+// 	loginWithResponse,
+// };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+// export default connect(null, mapDispatchToProps)(LoginPage);

@@ -1,19 +1,23 @@
 import style from "./Keyboard.module.sass";
 
 export default function Keyboard({ pressKey, phoneNumber }) {
+	const lengthFunc = (val) => {
+		phoneNumber.length !== 25 && pressKey(val);
+	};
+
 	const handlerOnClick = (e) => {
-		pressKey(e.target.value);
+		lengthFunc(e.target.value);
 	};
 	const handelNullClick = () => {
-		pressKey([0]);
+		lengthFunc([0]);
 	};
 	const handlerOnRightClick = (e) => {
 		e.preventDefault();
 
 		if (phoneNumber.length === 0) {
-			pressKey(["+", "3", "8", "0"]);
+			lengthFunc(["+", "3", "8", "0"]);
 		} else {
-			pressKey("+");
+			lengthFunc("+");
 		}
 	};
 
@@ -51,12 +55,13 @@ export default function Keyboard({ pressKey, phoneNumber }) {
 			</li>
 			<li>
 				<div
+					className={style.zero}
 					onClick={handelNullClick}
 					onContextMenu={handlerOnRightClick}
 					value="0"
 				>
-					<span>0</span>
-					<span>+</span>
+					<div>0</div>
+					<div>+</div>
 				</div>
 			</li>
 			<li>

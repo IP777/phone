@@ -35,19 +35,15 @@ export default function MiddlePhoneKeyboard({
 				<div className={style.callListWrapper}>
 					<div className={style.keyboardBtn}>
 						<img src={keyboard_img_src} alt="X" />
-						{isCall ? <span>Клавиатура</span> : <span>Скрыть</span>}
+						{isCall ? <div>Клавиатура</div> : <div>Скрыть</div>}
 					</div>
 					<div className={style.downCallBtn} onClick={handelEndCall}>
 						<img src={downCall_img_src} alt="X" />
 					</div>
 
-					<div
-						id="muteBtn"
-						onClick={handelMute}
-						className={style.muteBtn}
-					>
+					<div onClick={handelMute} className={style.muteBtn}>
 						<img src={mute_img_src} alt="X" />
-						{mute ? <span>Вкл. мик</span> : <span>Выкл. мик</span>}
+						{mute ? <div>Вкл. мик</div> : <div>Выкл. мик</div>}
 					</div>
 				</div>
 			) : (
@@ -56,10 +52,9 @@ export default function MiddlePhoneKeyboard({
 						<div className={style.callListWrapper}>
 							<div className={style.keyboardBtn}>
 								<img src={keyboard_img_src} alt="X" />
-								<span>Клавиатура</span>
+								<div>Клавиатура</div>
 							</div>
 							<div
-								id="callBtn"
 								className={style.callBtn2}
 								onClick={handelCall}
 							>

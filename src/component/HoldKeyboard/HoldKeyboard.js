@@ -8,11 +8,11 @@ export default function HoldKeyboard({ handelHold, isHold }) {
 		<div className={style.holdListWrapper}>
 			<div className={style.keyboardBtn}>
 				<img src={conference_img_src} alt="X" />
-				<span>Конференция</span>
+				<div>Конференция</div>
 			</div>
 			<div className={style.keyboardBtn}>
 				<img src={transfer_img_src} alt="X" />
-				<span>Трансфер</span>
+				<div>Трансфер</div>
 			</div>
 			<div
 				id="muteBtn"
@@ -20,7 +20,7 @@ export default function HoldKeyboard({ handelHold, isHold }) {
 				onClick={handelHold}
 			>
 				<img src={hold_img_src} alt="X" />
-				<span>{isHold ? "Продолжить" : "Удержать"}</span>
+				<div>{isHold ? "Продолжить" : "Удержать"}</div>
 			</div>
 		</div>
 	);

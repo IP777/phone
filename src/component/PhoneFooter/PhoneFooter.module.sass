@@ -1,7 +1,6 @@
 .footer_wrapper 
     border-radius: 0 0 10px 10px
-    background: #554aff
-    
+    background: #213991 
 
 .footer_list 
     display: grid
@@ -10,17 +9,21 @@
     justify-items: center
     height: 41px
     border-radius: 10px
+    margin-left: 20px
+    margin-right: 20px
     li
         position: relative
         margin-top: 10px
         text-align: center
-        font-family: 'Roboto-Light'
-        font-weight: 500
+        font-weight: 400
         font-size: 12px
-        opacity: .5
-    .active      
-        opacity: 1
         color: #fff
+        opacity: .5
+        cursor: pointer
+        &:hover
+            opacity: 1
+    .active 
+        opacity: 1
     .active::after
         display: block
         position: absolute

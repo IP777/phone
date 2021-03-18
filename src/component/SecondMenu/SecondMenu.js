@@ -1,10 +1,12 @@
-import timeWidget from "./helpers/TimeWidget";
+import useTimeNow from "./helpers/useTimeNow";
 import style from "./SecondMenu.module.sass";
 import search_img_src from "../../assets/image/search.svg";
 import dot_img_src from "../../assets/image/dot-menu.svg";
 import clock_img_src from "../../assets/image/clock.svg";
 
 export default function SecondMenu({ time, status }) {
+	const timer = useTimeNow();
+
 	const callStatus = (status) => {
 		switch (status) {
 			case "inCall":
@@ -22,7 +24,7 @@ export default function SecondMenu({ time, status }) {
 		<div className={style.sm_wrapper}>
 			<div className={style.time}>
 				<img src={clock_img_src} alt="O" />
-				{timeWidget(time)}
+				{timer}
 			</div>
 			{status && <span>{callStatus(status)}</span>}
 			<nav>
