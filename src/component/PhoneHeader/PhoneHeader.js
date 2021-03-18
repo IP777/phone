@@ -26,11 +26,17 @@ export default function PhoneHeader({ name, status, onMouseDown, onMouseUp }) {
 			<div className={style.name}>{name}</div>
 			<div className={style.nav}>
 				<img
+					draggable="false"
 					className={style.drop_dawn}
 					src={angle_down_img_src}
 					alt="\/"
 				/>
-				<img className={style.close_btn} src={x_btn_img_src} alt="x" />
+				<img
+					draggable="false"
+					className={style.close_btn}
+					src={x_btn_img_src}
+					alt="x"
+				/>
 			</div>
 		</div>
 	);

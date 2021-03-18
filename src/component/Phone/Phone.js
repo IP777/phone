@@ -32,21 +32,23 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 	const { sipUa, sipAudio } = useSipConnect(auth);
 
 	//Управление отображением клавиатуры на странице
-	const inComingCall = (e) => {
-		if (e) {
+	const inComingCall = (sessionState, incominNumber) => {
+		if (sessionState) {
 			setState({
 				...state,
 				isCall: false,
-				inCall: e,
+				inCall: sessionState,
 				statusDot: "incall",
 				statusCall: "inCall",
 			});
+			setPhoneNumder(["+", ...incominNumber.split("")]);
 		} else {
 			setState({
 				...state,
 				statusDot: "active",
 				statusCall: "",
 			});
+			setPhoneNumder([]);
 		}
 	};
 	// Хук сессии
@@ -60,6 +62,7 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 	});
 
 	const pressKey = (number) => {
+		console.log(session);
 		setPhoneNumder([...phoneNumder, ...number]);
 		if (!state.pressNumber) {
 			setState({ ...state, pressNumber: true });
@@ -78,7 +81,7 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 
 	const handelCall = () => {
 		//Проверяем создалась сессия и есть ли входящий если нету то кнопка работает на звонок
-		if (session && session.direction === "incoming") {
+		if (state.inCall) {
 			setState({ ...state, isCall: true });
 
 			session.answer({
@@ -189,7 +192,7 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 											style.incoming_wrapper
 										}
 									>
-										<div>Входящий звонок</div>
+										<div>{phoneNumder}</div>
 									</div>
 								) : (
 									<div className={style.logo}>
