@@ -10,17 +10,15 @@ export default function useSipConnect({ sipUa, sipAudio, inComingCall }) {
 				const session = e.session;
 				if (session.direction === "incoming") {
 					console.log("incoming");
-					// console.log(session.remote_identity.uri.user);
 					//Костыль желательно переделать структуру программы
 					// console.log(session.isInProgress());
 					const timer = setInterval((e) => {
 						if (session.isEnded()) {
 							inComingCall(false);
-							setSession(session);
 							clearInterval(timer);
 						}
 					}, 500);
-					// setSession(session);
+					setSession(session);
 					inComingCall(true, session.remote_identity.uri.user);
 				} else {
 					setSession(session);
