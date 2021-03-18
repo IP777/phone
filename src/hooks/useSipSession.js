@@ -12,7 +12,7 @@ export default function useSipConnect({ sipUa, sipAudio, inComingCall }) {
 					console.log("incoming");
 					//Костыль желательно переделать структуру программы
 					// console.log(session.isInProgress());
-					const timer = setInterval((e) => {
+					const timer = setInterval(() => {
 						if (session.isEnded()) {
 							inComingCall(false);
 							clearInterval(timer);
