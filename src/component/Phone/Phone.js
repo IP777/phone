@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SecondMenu from "../../component/SecondMenu/SecondMenu";
 import PhoneHeader from "../../component/PhoneHeader/PhoneHeader";
 import Keyboard from "../../component/Keyboard/Keyboard";
@@ -22,6 +22,9 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 		sessionOn: false,
 		mute: false,
 		hold: false,
+		statusDot: "active",
+		statusCall: "",
+		savePhone: true,
 	});
 
 	const [phoneNumder, setPhoneNumder] = useState([]);
@@ -30,10 +33,31 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 
 	//Управление отображением клавиатуры на странице
 	const inComingCall = (e) => {
-		setState({ ...state, isCall: false, inCall: e });
+		if (e) {
+			setState({
+				...state,
+				isCall: false,
+				inCall: e,
+				statusDot: "incall",
+				statusCall: "inCall",
+			});
+		} else {
+			setState({
+				...state,
+				statusDot: "active",
+				statusCall: "",
+			});
+		}
 	};
 	// Хук сессии
 	const { session } = useSipSession({ sipUa, sipAudio, inComingCall });
+
+	useEffect(() => {
+		if (localStorage.getItem("number") && state.savePhone) {
+			setPhoneNumder(localStorage.getItem("number").split(","));
+			setState({ ...state, savePhone: false, pressNumber: true });
+		}
+	});
 
 	const pressKey = (number) => {
 		setPhoneNumder([...phoneNumder, ...number]);
@@ -46,6 +70,7 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 		if (phoneNumder.length === 1) {
 			setState({ ...state, pressNumber: false });
 			setPhoneNumder([]);
+			localStorage.removeItem("number");
 			return;
 		}
 		setPhoneNumder(phoneNumder.slice(0, phoneNumder.length - 1));
@@ -55,11 +80,9 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 		//Проверяем создалась сессия и есть ли входящий если нету то кнопка работает на звонок
 		if (session && session.direction === "incoming") {
 			setState({ ...state, isCall: true });
+
 			session.answer({
-				mediaConstraints: {
-					audio: true,
-					video: false,
-				},
+				mediaConstraints: { audio: true, video: false },
 			});
 
 			session.connection.addEventListener("track", (e) => {
@@ -74,21 +97,17 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 			// Обработка событии исх. звонка
 			const eventHandlers = {
 				progress: function (e) {
-					setState({ ...state, isCall: true });
-					//По идее я должен тут должен отлавливать сессию, но она не обновляется
-					//и прилетает пустой обьект
-					// session.connection.addEventListener("track", (e) => {
-					// 	sipAudio.srcObject = e.streams[0];
-					// 	sipAudio.play();
-					// });
+					setState({ ...state, isCall: true, statusCall: "call" });
 				},
 				failed: function (e) {
-					setState({ ...state, isCall: false });
+					setState({ ...state, isCall: false, statusCall: "" });
 				},
 				ended: function (e) {
-					setState({ ...state, isCall: false });
+					setState({ ...state, isCall: false, statusCall: "" });
 				},
-				confirmed: function (e) {},
+				confirmed: function (e) {
+					setState({ ...state, statusCall: "talk" });
+				},
 			};
 
 			sipUa.call(phoneNumder.join(""), {
@@ -97,6 +116,7 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 			});
 
 			console.log(phoneNumder.join(""));
+			localStorage.setItem("number", phoneNumder);
 		}
 	};
 
@@ -121,10 +141,10 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 	const handelHold = () => {
 		if (state.hold) {
 			session.unhold();
-			setState({ ...state, hold: false });
+			setState({ ...state, hold: false, statusDot: "hold" });
 		} else {
 			session.hold();
-			setState({ ...state, hold: true });
+			setState({ ...state, hold: true, statusDot: "active" });
 		}
 	};
 
@@ -139,17 +159,17 @@ export default function Phone({ auth, loginWithToken, position, handlers }) {
 		>
 			<PhoneHeader
 				name={auth.userName}
-				status={"active"}
+				status={state.statusDot}
 				onMouseDown={handlers.downHandler}
 				onMouseUp={handlers.upHandler}
 			/>
 			<div className={style.main}>
-				<SecondMenu status={state.inCall ? "inCall" : null} />
+				<SecondMenu status={state.statusCall} />
 				{state.isCall ? (
 					<div className={style.phoneNumder}>{phoneNumder}</div>
 				) : (
 					<div className={style.phone_wrapper}>
-						{state.pressNumber ? (
+						{state.pressNumber && !state.inCall ? (
 							<div className={style.phoneNumder_wrapper}>
 								<div className={style.add_contact_block}>
 									<img src={add_btn_img_src} alt="+" />

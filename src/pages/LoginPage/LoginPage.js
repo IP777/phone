@@ -1,7 +1,5 @@
 import style from "./LoginPage.module.sass";
 import { useState } from "react";
-// import { connect } from "react-redux";
-// import { loginWithResponse } from "../../redux/operations/sessionOperations";
 
 export default function LoginPage({ loginWithResponse, history }) {
 	const [user, setUser] = useState({
@@ -79,9 +77,3 @@ export default function LoginPage({ loginWithResponse, history }) {
 		</>
 	);
 }
-
-// const mapDispatchToProps = {
-// 	loginWithResponse,
-// };
-
-// export default connect(null, mapDispatchToProps)(LoginPage);

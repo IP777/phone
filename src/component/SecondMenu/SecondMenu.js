@@ -4,7 +4,7 @@ import search_img_src from "../../assets/image/search.svg";
 import dot_img_src from "../../assets/image/dot-menu.svg";
 import clock_img_src from "../../assets/image/clock.svg";
 
-export default function SecondMenu({ time, status }) {
+export default function SecondMenu({ status }) {
 	const timer = useTimeNow();
 
 	const callStatus = (status) => {

@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk from "redux-thunk";
 import sessionReducer from "./reducer/session";
-import logger from "./middleware/logger";
+// import logger from "./middleware/logger";
 //-----------------------------
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";

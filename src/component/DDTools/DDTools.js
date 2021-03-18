@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function DDTools({ Component }) {
+export default function DDTools({ Component, restProps }) {
 	const [state, setState] = useState({
 		mousePush: false,
 	});
@@ -39,6 +39,7 @@ export default function DDTools({ Component }) {
 		<Component
 			position={{ x: mouse.posX, y: mouse.posY }}
 			handlers={{ downHandler, upHandler }}
+			restProps={restProps}
 		/>
 	);
 }
